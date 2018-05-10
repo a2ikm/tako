@@ -27,6 +27,15 @@ describe 'ActiveRecord::Base.shard' do
     end
   end
 
+  describe "find_or_initialize_by with block" do
+    it "works" do
+      record = ModelA.shard(:shard01).find_or_initialize_by(id: 1) do |a|
+        a.value1 = 1
+      end
+      expect(record.value1).to eq(1)
+    end
+  end
+
   describe "shard block" do
     subject do
       ModelA.shard(:shard01) do
